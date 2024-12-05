@@ -41,14 +41,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     let settings = await getSettings(page, userId, hostname);
 
-    if (settings) {
-        await prisma.settings.delete({
-            where: {
-                id: settings.id,
-            },
-        });
-    }
-
     if (!settings) {
         settings = await prisma.settings.create({
             data: {

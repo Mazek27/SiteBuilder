@@ -22,9 +22,7 @@ export const Title = (props: OwnProps) => {
 
     return (
         <EditContainer id={id} type={'title'}>
-            <h1 className={newClassName} {...props}>
-                {text}
-            </h1>
+            <h1 className={newClassName}>{text}</h1>
         </EditContainer>
     );
 };

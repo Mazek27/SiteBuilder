@@ -7,7 +7,17 @@ export const patterns: Record<string, RegExp> = {
     fontWeight:
         /^(font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black))$/,
     // Button-specific patterns
-    display: /^(inline-flex|flex|block|inline-block)$/,
+    display: /^(inline-flex|flex|block|grid|inline-block)$/,
+    gridTemplateColumns: /^(grid-cols-(\d+|auto|1|2|3|4|5|6|7|8|9|10|11|12))$/,
+    gridGap: /^(gap-(\d+))$/,
+    gridAutoFlow: /^(grid-flow-(row|col|row-dense|col-dense))$/,
+    gridAutoColumns: /^(auto-cols-(auto|fr|max|min|prose|none))$/,
+    gridAutoRows: /^(auto-rows-(auto|fr|max|min|prose|none))$/,
+    gridRow: /^(row-(auto|span-\d+|start|end|span-(\d+|full)))$/,
+    gridColumn: /^(col-(auto|span-\d+|start|end|span-(\d+|full)))$/,
+    gridTemplateRows: /^(grid-rows-(auto|fr|max|min|prose|none))$/,
+    gridTemplateAreas: /^grid-template-areas\((.+)\)$/,
+    gap: /^gap-(\d+)$/,
     justifyContent: /^(justify-(start|center|end|between|around|evenly))$/,
     flexDirection: /^(flex-(row|row-reverse|col|col-reverse))$/,
     flexWrap: /^(flex-wrap|flex-no-wrap|flex-nowrap)$/,

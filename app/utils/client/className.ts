@@ -181,6 +181,26 @@ for (const property in propertyClassMap) {
     }
 }
 
+export const convertStringToPropertyClass = (
+    string: string,
+): Record<string, string> => {
+    const classSet = new Set<string>(string.split(' '));
+
+    const propertyToClass: { [property: string]: string } = {};
+
+    classSet.forEach(cls => {
+        let property =
+            classToPropertyMap[cls] ||
+            Object.keys(patterns).find(prop => patterns[prop].test(cls));
+
+        if (property) {
+            propertyToClass[property] = cls;
+        }
+    });
+
+    return propertyToClass;
+};
+
 export function updateClassName(
     defaultClass: string,
     settingsClassName?: string,
@@ -208,7 +228,7 @@ export function updateClassName(
 export function changeClassInString(
     className: string,
     property: string,
-    newValue: string,
+    newValue: string | null,
     ignoreSameValue = false,
 ): string {
     const pattern = patterns[property] as RegExp;
@@ -222,7 +242,8 @@ export function changeClassInString(
 
     const updatedClassList = classList.filter(cls => !pattern.test(cls));
 
-    if (ignoreSameValue) {
+    if (!newValue) {
+    } else if (ignoreSameValue) {
         updatedClassList.push(newValue);
     } else if (!updatedClassList.includes(newValue)) {
         updatedClassList.push(newValue);

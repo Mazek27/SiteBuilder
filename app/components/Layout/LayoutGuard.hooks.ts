@@ -1,9 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SettingsType } from '~/components/Core/model';
 import _ from 'lodash';
-import { changeClassInString, updateClassName } from '~/utils/client/className';
+import {
+    changeClassInString,
+    convertStringToPropertyClass,
+    updateClassName,
+} from '~/utils/client/className';
 import { useFetcher } from '@remix-run/react';
 import { useEditMode } from '~/hooks/useEditMode';
+import {
+    composeComponentPath,
+    getSettingsById,
+} from '~/utils/client/component';
 
 export const useLayoutGuard = <T extends object>(
     baseSettings: SettingsType<T>,
@@ -63,28 +71,25 @@ export const useLayoutGuard = <T extends object>(
     const handleUpdateClassName = React.useCallback(
         (
             id: string,
-            property: string | string[],
-            newValue: string | string[],
+            data: {
+                [x: string]: string | null;
+            },
             ignoreSameValue?: boolean,
         ) => {
             const copyPrev = { ...layoutSettings };
-            const componentPath = `${id}`;
-            const componentSettings = _.get(copyPrev, componentPath, {}) as {
-                className?: string;
-            };
-            let className = componentSettings.className || '';
 
-            const properties = Array.isArray(property) ? property : [property];
-            const newValues = Array.isArray(newValue) ? newValue : [newValue];
+            const componentPath = composeComponentPath(id);
+            let { className = '' } = getSettingsById(id, copyPrev);
 
-            properties.forEach((prop, index) => {
+            Object.entries(data).forEach(([prop, value]) => {
                 className = changeClassInString(
                     className,
                     prop,
-                    newValues[index],
+                    value,
                     ignoreSameValue,
                 );
             });
+
             _.set(copyPrev, `${componentPath}.className`, className);
 
             updateSettings(copyPrev);
@@ -93,8 +98,14 @@ export const useLayoutGuard = <T extends object>(
     );
 
     const getComponentSettings = React.useCallback(
-        (id: string): T => {
-            return _.get(layoutSettings, id);
+        (id: string) => getSettingsById(id, layoutSettings),
+        [layoutSettings],
+    );
+
+    const getComponentClassNames = React.useCallback(
+        (id: string) => {
+            const { className } = getComponentSettings(id);
+            return convertStringToPropertyClass(className || '');
         },
         [layoutSettings],
     );
@@ -104,6 +115,7 @@ export const useLayoutGuard = <T extends object>(
         handlePostUpdate,
         handleUpdateClassName,
         getComponentSettings,
+        getComponentClassNames,
         handleUpdate,
         handleClose,
         handleCancel,

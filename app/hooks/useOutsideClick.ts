@@ -7,7 +7,6 @@ const InteractionStartEvent = {
     pointer: 'pointerdown',
 };
 
-// NOTE: not used, left fo future reference
 export function useOutsideClick<T extends HTMLElement | SVGElement>(
     ref: RefObject<T>,
     callback: () => void,
@@ -27,16 +26,9 @@ export function useOutsideClick<T extends HTMLElement | SVGElement>(
         }
 
         let uiStartEvent = InteractionStartEvent.mouse;
-        // if (Capabilities.shared.isMobileDevice) {
-        //     uiStartEvent = hasTouchEvent()
-        //         ? InteractionStartEvent.touch
-        //         : InteractionStartEvent.pointer;
-        // }
 
-        // Bind the event listener
         document.addEventListener(uiStartEvent, handleClickOutside, true);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener(
                 uiStartEvent,
                 handleClickOutside,
@@ -53,9 +45,3 @@ const hasTouchEvent = () => {
 const hasPointerEvent = () => {
     return window.PointerEvent;
 };
-
-// const Capabilities = {
-//     shared: {
-//         isMobileDevice: hasTouchEvent() || hasPointerEvent(),
-//     },
-// };

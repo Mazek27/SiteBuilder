@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { Auth0Profile } from 'remix-auth-auth0';
 import { useLayoutGuard } from '~/components/Layout/LayoutGuard.hooks';
-import { clsx } from 'clsx';
 import { useEditMode } from '~/hooks/useEditMode';
 import { boolean } from 'property-information/lib/util/types';
 import EditBar from '~/components/Layout/EditingBar/EditBar';
@@ -22,11 +21,13 @@ type OwnProps = {
 export const EditContext = createContext({
     handleUpdateComponent: (id: string, data: any) => {},
     getComponentSettings: (id: string) => boolean,
+    getComponentClassNames: (id: string) => ({}) as Record<string, string>,
     handlePostUpdate: (id: string, property: string, data: any) => {},
     handleUpdateClassName: (
         id: string,
-        property: string | string[],
-        data: string | string[],
+        data: {
+            [x: string]: string | null;
+        },
         ignoreSameValue?: boolean,
     ) => {},
     handleSave: () => {},
@@ -44,7 +45,7 @@ const LayoutGuard = ({
             <Header profile={profile} />
             <div className={'relative isolate px-6 pt-14 lg:px-8 w-full'}>
                 {Children.map(children, child =>
-                    cloneElement(child, { settings }),
+                    cloneElement(child as any, { settings }),
                 )}
             </div>
         </div>
@@ -61,7 +62,7 @@ export default ({
 
     if (isEditing) {
         return (
-            <EditContext.Provider value={{ ...methods }}>
+            <EditContext.Provider value={{ ...methods } as any}>
                 <EditBar />
                 <LayoutGuard settings={layoutSettings} profile={profile}>
                     {children}

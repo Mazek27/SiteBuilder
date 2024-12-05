@@ -1,4 +1,7 @@
-import { ToolbarProps } from '~/components/Core/EditContainer/components/Toolbar/Toolbar';
+import {
+    ComponentToolbar,
+    ToolbarProps,
+} from '~/components/Core/EditContainer/components/Toolbar/Toolbar';
 import * as React from 'react';
 import {
     BiObjectsHorizontalCenter,
@@ -12,85 +15,86 @@ import {
 } from 'react-icons/bi';
 import { useContext } from 'react';
 import { EditContext } from '~/components/Layout/LayoutGuard';
+import { BarButton } from '~/components/Core/EditContainer/components/Toolbar/components/BarButton';
 
-type Props = ToolbarProps;
+type Props = ComponentToolbar<{}>;
 
-const ContainerToolbar: React.FC<Props> = ({ id }) => {
-    const { handleUpdateClassName } = useContext(EditContext);
-    const handleChange = (
-        property: string | string[],
-        value: string | string[],
-        ignoreSameValue = false,
-    ) => {
-        handleUpdateClassName(id, property, value, ignoreSameValue);
-    };
-
+const ContainerToolbar: React.FC<Props> = ({ handleChange }) => {
     return (
-        <div className="flex flex-wrap items-center p-2 bg-gray-100 border-b border-gray-300">
-            {/* Direction */}
-            <button
-                onClick={() =>
-                    handleChange(
-                        ['display', 'flexDirection'],
-                        ['flex', 'flex-col'],
-                        true,
-                    )
-                }
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiDotsVertical className={'w-6 h-6'} />
-            </button>
-            <button
-                onClick={() =>
-                    handleChange(
-                        ['display', 'flexDirection'],
-                        ['flex', 'flex-row'],
-                        true,
-                    )
-                }
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiDotsHorizontal className={'w-6 h-6'} />
-            </button>
-
-            {/* Justify */}
-
-            <button
-                onClick={() => handleChange('justifyContent', 'justify-start')}
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiObjectsHorizontalLeft className={'w-6 h-6'} />
-            </button>
-
-            <button
-                onClick={() => handleChange('justifyContent', 'justify-center')}
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiObjectsHorizontalCenter className={'w-6 h-6'} />
-            </button>
-
-            <button
-                onClick={() => handleChange('justifyContent', 'justify-end')}
-                className="p-2 border border-gray-300 rounded mr-2 hover:bg-gray-200">
-                <BiObjectsHorizontalRight className={'w-6 h-6'} />
-            </button>
-
-            {/* Vertical Align Top */}
-            <button
-                onClick={() => handleChange('alignItems', 'items-start')}
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiObjectsVerticalTop className={'w-6 h-6'} />
-            </button>
-
-            {/* Vertical Align Center */}
-            <button
-                onClick={() => handleChange('alignItems', 'items-center')}
-                className="p-2 border border-gray-300 rounded mr-1 hover:bg-gray-200">
-                <BiObjectsVerticalCenter className={'w-6 h-6'} />
-            </button>
-
-            {/* Vertical Align Bottom */}
-            <button
-                onClick={() => handleChange('alignItems', 'items-end')}
-                className="p-2 border border-gray-300 rounded mr-2 hover:bg-gray-200">
-                <BiObjectsVerticalBottom className={'w-6 h-6'} />
-            </button>
+        <div className="absolute top-0 grid grid-flow-col w-auto gap-2 p-2 bg-gray-100 border-b border-gray-300 divide-x">
+            {/* Grid Display */}
+            <div className="grid grid-flow-col gap-2">
+                <BarButton
+                    active={false}
+                    onClick={() =>
+                        handleChange(
+                            {
+                                display: 'grid',
+                                gridColumn: null,
+                                gridAutoFlow: 'grid-flow-row',
+                            },
+                            true,
+                        )
+                    }
+                    icon={BiDotsVertical}
+                />
+                <BarButton
+                    active={false}
+                    onClick={() =>
+                        handleChange(
+                            {
+                                display: 'grid',
+                                gridRow: null,
+                                gridAutoFlow: 'grid-flow-col',
+                            },
+                            true,
+                        )
+                    }
+                    icon={BiDotsHorizontal}
+                />
+            </div>
+            <div className="grid grid-flow-col gap-2 pl-2">
+                {/* Justify Items */}
+                <BarButton
+                    active={false}
+                    onClick={() =>
+                        handleChange({ justifyItems: 'justify-items-start' })
+                    }
+                    icon={BiObjectsHorizontalLeft}
+                />
+                <BarButton
+                    active={false}
+                    onClick={() =>
+                        handleChange({ justifyItems: 'justify-items-center' })
+                    }
+                    icon={BiObjectsHorizontalCenter}
+                />
+                <BarButton
+                    active={false}
+                    onClick={() =>
+                        handleChange({ justifyItems: 'justify-items-end' })
+                    }
+                    icon={BiObjectsHorizontalRight}
+                />
+            </div>
+            <div className="grid grid-flow-col gap-2 pl-2">
+                {/* Align Items */}
+                <BarButton
+                    active={true}
+                    onClick={() => handleChange({ alignItems: 'items-start' })}
+                    icon={BiObjectsVerticalTop}
+                />
+                <BarButton
+                    active={false}
+                    onClick={() => handleChange({ alignItems: 'items-center' })}
+                    icon={BiObjectsVerticalCenter}
+                />
+                <BarButton
+                    active={false}
+                    onClick={() => handleChange({ alignItems: 'items-end' })}
+                    icon={BiObjectsVerticalBottom}
+                />
+            </div>
         </div>
     );
 };

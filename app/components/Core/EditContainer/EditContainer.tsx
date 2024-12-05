@@ -12,29 +12,41 @@ import { SettingsType } from '~/components/Core/model';
 import { useSearchParams } from '@remix-run/react';
 import { useEditMode } from '~/hooks/useEditMode';
 import { Toolbar } from '~/components/Core/EditContainer/components/Toolbar/Toolbar';
+import { useOutsideClick } from '~/hooks/useOutsideClick';
 
 type InnerOwnProps = {
-    id?: string;
+    id: string;
     type?: string;
 };
 
 const EditContainer: FC<PropsWithChildren<InnerOwnProps>> = props => {
     const { id, type } = props;
-    const containerRef = useRef(null);
-    const { element, handleSelectElement } = useEditMode();
+    const toolbarRef = useRef(null);
+    const { element, handleSelectElement, handleDeselectElement } =
+        useEditMode();
     const displayToolBar = element === id;
+
+    useOutsideClick(toolbarRef, () => {
+        if (element) {
+            handleDeselectElement();
+        }
+    });
 
     return (
         <>
             <div
-                ref={containerRef}
                 className={clsx(
-                    'rounded-lg',
-                    'hover:outline-offset-2 hover:outline-1 hover:outline select-none cursor-pointer bg-amber-100 ',
-                    { 'outline outline-2 outline-cyan-500': element === id },
+                    'rounded-lg relative',
+                    'hover:outline-offset-8 hover:z-50 hover:outline-5 outline-blue-500 hover:outline select-none cursor-pointer bg-amber-100 ',
+                    {
+                        'outline outline-offset-8 outline-5 outline-blue-700 z-50 ':
+                            element === id,
+                    },
                 )}
                 onClick={handleSelectElement(id)}>
-                {displayToolBar && <Toolbar type={type} id={id} />}
+                {displayToolBar && (
+                    <Toolbar type={type as any} ref={toolbarRef} id={id} />
+                )}
                 {props.children}
             </div>
         </>
@@ -52,7 +64,7 @@ export default (props: PropsWithChildren<OuterOwnProps>) => {
     const { editable = true, type, id } = props;
     const { isEditing } = useEditMode();
 
-    if (isEditing && editable) {
+    if (isEditing && editable && id) {
         return (
             <EditContainer type={type} id={id}>
                 {props.children}

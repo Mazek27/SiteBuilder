@@ -13,6 +13,9 @@ type OwnProps = Component<
 
 const defaultClass = 'p-6';
 
+const createChildId = (parentId: string, childId: string, index: number) =>
+    `${parentId}.children[${index}].${childId}`;
+
 export const Container = (props: OwnProps) => {
     const { settings: { className, children } = { children: [] }, id } = props;
 
@@ -21,8 +24,12 @@ export const Container = (props: OwnProps) => {
     return (
         <EditContainer id={id} type={'container'}>
             <div className={newClassName}>
-                {children?.map(({ id, ...childProps }) => (
-                    <DynamicElement key={id} id={id} settings={childProps} />
+                {children?.map(({ id: childId, ...childProps }, index) => (
+                    <DynamicElement
+                        key={childId}
+                        id={createChildId(props.id!, childId, index)}
+                        settings={childProps}
+                    />
                 ))}
             </div>
         </EditContainer>
