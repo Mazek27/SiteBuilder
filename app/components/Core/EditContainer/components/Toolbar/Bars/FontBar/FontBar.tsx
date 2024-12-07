@@ -23,7 +23,7 @@ const FontToolbar: React.FC<Props> = ({ id }) => {
 
     const activeClassNames = getComponentClassNames(id);
 
-    console.log(activeClassNames);
+    // console.log(activeClassNames);
 
     const fonts = ['font-sans', 'font-serif', 'font-mono'];
     const sizes = _.fill(Array(6), null).map((_, i) => i + 1);
@@ -45,7 +45,7 @@ const FontToolbar: React.FC<Props> = ({ id }) => {
         .flatMap(s => s);
 
     const handleChange = (data: { [key: string]: string }) => {
-        handleUpdateClassName(id, data);
+        handleUpdateClassName(id, data, false);
     };
 
     return (

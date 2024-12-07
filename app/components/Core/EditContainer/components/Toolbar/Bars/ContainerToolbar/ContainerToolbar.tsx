@@ -53,48 +53,48 @@ const ContainerToolbar: React.FC<Props> = ({ handleChange }) => {
                     icon={BiDotsHorizontal}
                 />
             </div>
-            <div className="grid grid-flow-col gap-2 pl-2">
-                {/* Justify Items */}
-                <BarButton
-                    active={false}
-                    onClick={() =>
-                        handleChange({ justifyItems: 'justify-items-start' })
-                    }
-                    icon={BiObjectsHorizontalLeft}
-                />
-                <BarButton
-                    active={false}
-                    onClick={() =>
-                        handleChange({ justifyItems: 'justify-items-center' })
-                    }
-                    icon={BiObjectsHorizontalCenter}
-                />
-                <BarButton
-                    active={false}
-                    onClick={() =>
-                        handleChange({ justifyItems: 'justify-items-end' })
-                    }
-                    icon={BiObjectsHorizontalRight}
-                />
-            </div>
-            <div className="grid grid-flow-col gap-2 pl-2">
-                {/* Align Items */}
-                <BarButton
-                    active={true}
-                    onClick={() => handleChange({ alignItems: 'items-start' })}
-                    icon={BiObjectsVerticalTop}
-                />
-                <BarButton
-                    active={false}
-                    onClick={() => handleChange({ alignItems: 'items-center' })}
-                    icon={BiObjectsVerticalCenter}
-                />
-                <BarButton
-                    active={false}
-                    onClick={() => handleChange({ alignItems: 'items-end' })}
-                    icon={BiObjectsVerticalBottom}
-                />
-            </div>
+            {/*<div className="grid grid-flow-col gap-2 pl-2">*/}
+            {/*    /!* Justify Items *!/*/}
+            {/*    <BarButton*/}
+            {/*        active={false}*/}
+            {/*        onClick={() =>*/}
+            {/*            handleChange({ justifyItems: 'justify-items-start' })*/}
+            {/*        }*/}
+            {/*        icon={BiObjectsHorizontalLeft}*/}
+            {/*    />*/}
+            {/*    <BarButton*/}
+            {/*        active={false}*/}
+            {/*        onClick={() =>*/}
+            {/*            handleChange({ justifyItems: 'justify-items-center' })*/}
+            {/*        }*/}
+            {/*        icon={BiObjectsHorizontalCenter}*/}
+            {/*    />*/}
+            {/*    <BarButton*/}
+            {/*        active={false}*/}
+            {/*        onClick={() =>*/}
+            {/*            handleChange({ justifyItems: 'justify-items-end' })*/}
+            {/*        }*/}
+            {/*        icon={BiObjectsHorizontalRight}*/}
+            {/*    />*/}
+            {/*</div>*/}
+            {/*<div className="grid grid-flow-col gap-2 pl-2">*/}
+            {/*    /!* Align Items *!/*/}
+            {/*    <BarButton*/}
+            {/*        active={true}*/}
+            {/*        onClick={() => handleChange({ alignItems: 'items-start' })}*/}
+            {/*        icon={BiObjectsVerticalTop}*/}
+            {/*    />*/}
+            {/*    <BarButton*/}
+            {/*        active={false}*/}
+            {/*        onClick={() => handleChange({ alignItems: 'items-center' })}*/}
+            {/*        icon={BiObjectsVerticalCenter}*/}
+            {/*    />*/}
+            {/*    <BarButton*/}
+            {/*        active={false}*/}
+            {/*        onClick={() => handleChange({ alignItems: 'items-end' })}*/}
+            {/*        icon={BiObjectsVerticalBottom}*/}
+            {/*    />*/}
+            {/*</div>*/}
         </div>
     );
 };

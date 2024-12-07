@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { Component } from '~/components/Core/model';
 import EditContainer from '../EditContainer/EditContainer';
-import { updateClassName } from '~/utils/client/className';
+import { ClassNameUtils } from '~/utils/client/className';
 import { DynamicElement } from '~/components/Core/DynamicElement/DynamicElement';
 
 type OwnProps = Component<
@@ -19,7 +19,10 @@ const createChildId = (parentId: string, childId: string, index: number) =>
 export const Container = (props: OwnProps) => {
     const { settings: { className, children } = { children: [] }, id } = props;
 
-    const newClassName = updateClassName(defaultClass, className);
+    const newClassName = ClassNameUtils.updateClassName(
+        defaultClass,
+        className,
+    );
 
     return (
         <EditContainer id={id} type={'container'}>

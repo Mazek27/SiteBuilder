@@ -3,7 +3,7 @@ import EditContainer from '~/components/Core/EditContainer/EditContainer';
 import { useFormContext } from 'react-hook-form';
 import { FormInput } from '~/components/Forms/FormInput';
 import { FormTextAlignment } from '~/components/Forms/FormTextAlignment';
-import { updateClassName } from '~/utils/client/className';
+import { ClassNameUtils } from '~/utils/client/className';
 
 type OwnProps = Component<
     'title',
@@ -18,7 +18,10 @@ const defaultText = 'Lorem ipsum dolor sit';
 export const Title = (props: OwnProps) => {
     const { settings: { className, text = defaultText } = {}, id } = props;
 
-    const newClassName = updateClassName(defaultClass, className);
+    const newClassName = ClassNameUtils.updateClassName(
+        defaultClass,
+        className,
+    );
 
     return (
         <EditContainer id={id} type={'title'}>

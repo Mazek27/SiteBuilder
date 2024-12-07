@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SettingsType } from '~/components/Core/model';
 import _ from 'lodash';
-import {
-    changeClassInString,
-    convertStringToPropertyClass,
-    updateClassName,
-} from '~/utils/client/className';
+import { ClassNameUtils } from '~/utils/client/className';
 import { useFetcher } from '@remix-run/react';
 import { useEditMode } from '~/hooks/useEditMode';
 import {
@@ -82,7 +78,7 @@ export const useLayoutGuard = <T extends object>(
             let { className = '' } = getSettingsById(id, copyPrev);
 
             Object.entries(data).forEach(([prop, value]) => {
-                className = changeClassInString(
+                className = ClassNameUtils.changeClassInString(
                     className,
                     prop,
                     value,
@@ -105,7 +101,7 @@ export const useLayoutGuard = <T extends object>(
     const getComponentClassNames = React.useCallback(
         (id: string) => {
             const { className } = getComponentSettings(id);
-            return convertStringToPropertyClass(className || '');
+            return ClassNameUtils.convertStringToPropertyClass(className || '');
         },
         [layoutSettings],
     );

@@ -10,14 +10,16 @@ type Props = {
 };
 export const BarButton: FC<Props> = props => {
     const Icon = props.icon;
-    console.log(props.active);
 
     return (
         <button
-            onClick={props.onClick}
+            onClick={e => {
+                e.stopPropagation();
+                props.onClick();
+            }}
             type={'button'}
             className={clsx('p-2 border border-gray-300 rounded', {
-                'bg-success-800': props.active,
+                'bg-success-700': props.active,
             })}>
             <Icon className={'w-6 h-6'} />
         </button>

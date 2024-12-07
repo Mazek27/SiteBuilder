@@ -35,9 +35,6 @@ const propertyClassMap: PropertyClassMap = {
             'text-4xl',
             'text-5xl',
             'text-6xl',
-            'text-7xl',
-            'text-8xl',
-            'text-9xl',
         ],
         default: 'text-base',
     },
@@ -181,36 +178,18 @@ for (const property in propertyClassMap) {
     }
 }
 
-export const convertStringToPropertyClass = (
-    string: string,
-): Record<string, string> => {
-    const classSet = new Set<string>(string.split(' '));
+const convertStringToPropertyClass = (className: string) => {
+    const classSet = new Set<string>(className.split(' '));
 
+    return convertClassSetToPropertyClass([...classSet]);
+};
+
+const convertClassSetToPropertyClass = (
+    classSet: Array<string>,
+): Record<string, string> => {
     const propertyToClass: { [property: string]: string } = {};
 
     classSet.forEach(cls => {
-        let property =
-            classToPropertyMap[cls] ||
-            Object.keys(patterns).find(prop => patterns[prop].test(cls));
-
-        if (property) {
-            propertyToClass[property] = cls;
-        }
-    });
-
-    return propertyToClass;
-};
-
-export function updateClassName(
-    defaultClass: string,
-    settingsClassName?: string,
-): string {
-    const classSet = new Set<string>(defaultClass.split(' '));
-    const settingsSet = new Set<string>(settingsClassName?.split(' ') || []);
-
-    const propertyToClass: { [property: string]: string } = {};
-
-    [...settingsSet, ...classSet].forEach(cls => {
         let property =
             classToPropertyMap[cls] ||
             Object.keys(patterns).find(prop => patterns[prop].test(cls));
@@ -222,10 +201,25 @@ export function updateClassName(
         }
     });
 
+    return propertyToClass;
+};
+
+function updateClassName(
+    defaultClass: string,
+    settingsClassName?: string,
+): string {
+    const classSet = new Set<string>(defaultClass.split(' '));
+    const settingsSet = new Set<string>(settingsClassName?.split(' ') || []);
+
+    const propertyToClass = convertClassSetToPropertyClass([
+        ...settingsSet,
+        ...classSet,
+    ]);
+
     return Object.values(propertyToClass).join(' ').trim();
 }
 
-export function changeClassInString(
+function changeClassInString(
     className: string,
     property: string,
     newValue: string | null,
@@ -245,9 +239,17 @@ export function changeClassInString(
     if (!newValue) {
     } else if (ignoreSameValue) {
         updatedClassList.push(newValue);
-    } else if (!updatedClassList.includes(newValue)) {
+    } else if (!classList.includes(newValue)) {
         updatedClassList.push(newValue);
     }
 
     return updatedClassList.join(' ').trim();
 }
+
+export const ClassNameUtils = {
+    propertyClassMap,
+    convertStringToPropertyClass,
+    convertClassSetToPropertyClass,
+    updateClassName,
+    changeClassInString,
+};

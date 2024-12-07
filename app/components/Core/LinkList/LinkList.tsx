@@ -2,7 +2,7 @@ import { Component } from '~/components/Core/model';
 import EditContainer from '~/components/Core/EditContainer/EditContainer';
 import { FormInput } from '~/components/Forms/FormInput';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { updateClassName } from '~/utils/client/className';
+import { ClassNameUtils } from '~/utils/client/className';
 import { TextButton } from '~/components/Core/TextButton/TextButton';
 import { Button } from '~/components/Core/Button/Button';
 
@@ -24,7 +24,10 @@ export const LinkList = (props: OwnProps) => {
         onClick,
     } = props;
 
-    const newClassName = updateClassName(defaultClass, className);
+    const newClassName = ClassNameUtils.updateClassName(
+        defaultClass,
+        className,
+    );
 
     return (
         <EditContainer

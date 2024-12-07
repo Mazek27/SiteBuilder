@@ -3,7 +3,7 @@ import EditContainer from '~/components/Core/EditContainer/EditContainer';
 import * as Icons from '@heroicons/react/24/solid';
 import { Icon } from '~/components/Core/Icon';
 import { FormInput } from '~/components/Forms/FormInput';
-import { updateClassName } from '~/utils/client/className';
+import { ClassNameUtils } from '~/utils/client/className';
 import { useFormContext } from 'react-hook-form';
 
 type OwnProps = Component<
@@ -33,7 +33,10 @@ export const Button = (props: OwnProps) => {
         onClick = () => {},
     } = props;
 
-    const newClassName = updateClassName(defaultClass, className);
+    const newClassName = ClassNameUtils.updateClassName(
+        defaultClass,
+        className,
+    );
 
     return (
         <EditContainer
