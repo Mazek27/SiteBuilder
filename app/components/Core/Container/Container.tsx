@@ -11,7 +11,7 @@ type OwnProps = Component<
     }
 >;
 
-const defaultClass = 'p-6';
+const defaultClass = 'grid grid-cols-12 grid-rows-4';
 
 const createChildId = (parentId: string, childId: string, index: number) =>
     `${parentId}.children[${index}].${childId}`;

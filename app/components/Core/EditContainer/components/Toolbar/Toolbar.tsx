@@ -1,19 +1,10 @@
 import * as React from 'react';
 import { FC, forwardRef, useContext } from 'react';
-import FontToolbar from '~/components/Core/EditContainer/components/Toolbar/Bars/FontBar/FontBar';
-import ContainerToolbar from '~/components/Core/EditContainer/components/Toolbar/Bars/ContainerToolbar/ContainerToolbar';
-import { EditContext } from '~/components/Layout/LayoutGuard';
-
-const ToolBars = {
-    title: FontToolbar,
-    paragraph: FontToolbar,
-    container: ContainerToolbar,
-};
-
-export type ToolbarProps = {
-    id: string;
-    type: keyof typeof ToolBars;
-};
+import {
+    ToolbarProps,
+    ToolBars,
+    useToolbar,
+} from '~/components/Core/EditContainer/components/Toolbar/Toolbar.hooks';
 
 export type ComponentToolbar<T> = T &
     ToolbarProps & {
@@ -21,19 +12,20 @@ export type ComponentToolbar<T> = T &
             data: { [key: string]: string | null },
             ignoreSameValue?: boolean,
         ) => void;
+        handleChangeToolbar: (newType: keyof typeof ToolBars) => void;
+        handleBackChangeToolbar: () => void;
     };
 
 export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
     (props, ref) => {
-        const { handleUpdateClassName } = useContext(EditContext);
-        const handleChange = (
-            data: { [key: string]: string | null },
-            ignoreSameValue = false,
-        ) => {
-            handleUpdateClassName(props.id, data, ignoreSameValue);
-        };
+        const {
+            currentToolbarType,
+            handleChange,
+            handleChangeToolbar,
+            handleBackChangeToolbar,
+        } = useToolbar(props.id, props.type as any);
 
-        const ToolBarComponent = ToolBars[props.type] as any;
+        const ToolBarComponent = ToolBars[currentToolbarType] as any;
 
         if (!ToolBarComponent) {
             return null;
@@ -44,6 +36,8 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
                 <ToolBarComponent
                     key={props.id}
                     id={props.id}
+                    handleChangeToolbar={handleChangeToolbar}
+                    handleBackChangeToolbar={handleBackChangeToolbar}
                     handleChange={handleChange}
                 />
             </div>

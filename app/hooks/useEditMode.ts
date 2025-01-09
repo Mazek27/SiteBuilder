@@ -1,13 +1,10 @@
 import { useSearchParams } from '@remix-run/react';
-import { MouseEvent, useCallback, useContext } from 'react';
-import { EditContext } from '~/components/Layout/LayoutGuard';
+import { MouseEvent, useCallback, useContext, useState } from 'react';
 
 export const useEditMode = () => {
-    const {} = useContext(EditContext);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const handleOpen = useCallback(() => {
-        console.log('handleOpen');
         setSearchParams(prev => {
             prev.set('edit', 'true');
             return prev;

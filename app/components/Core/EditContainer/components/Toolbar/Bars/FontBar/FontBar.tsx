@@ -1,9 +1,5 @@
 import * as React from 'react';
-import { FC, useContext } from 'react';
-import { EditContext } from '~/components/Layout/LayoutGuard';
-import { ToolbarProps } from '~/components/Core/EditContainer/components/Toolbar/Toolbar';
 import {
-    GrTextAlignFull,
     GrTextAlignCenter,
     GrTextAlignRight,
     GrTextAlignLeft,
@@ -14,16 +10,18 @@ import {
 } from 'react-icons/gr';
 import _ from 'lodash';
 import { BarButton } from '~/components/Core/EditContainer/components/Toolbar/components/BarButton';
+import { ComponentToolbar } from '~/components/Core/EditContainer/components/Toolbar/Toolbar';
+import { CoreToolbar } from '~/components/Core/EditContainer/components/Toolbar/components/CoreToolbar';
+import { useEditContext } from '~/hooks/useEditContext';
 
-type Props = ToolbarProps;
+type Props = ComponentToolbar<{}>;
 
-const FontToolbar: React.FC<Props> = ({ id }) => {
-    const { handleUpdateClassName } = useContext(EditContext);
-    const { getComponentClassNames } = useContext(EditContext);
+const FontToolbar: React.FC<Props> = ({ id, type, ...methods }) => {
+    const { handleUpdateClassName, getComponentClassNames } = useEditContext();
 
     const activeClassNames = getComponentClassNames(id);
 
-    // console.log(activeClassNames);
+    console.log(activeClassNames);
 
     const fonts = ['font-sans', 'font-serif', 'font-mono'];
     const sizes = _.fill(Array(6), null).map((_, i) => i + 1);
@@ -49,12 +47,12 @@ const FontToolbar: React.FC<Props> = ({ id }) => {
     };
 
     return (
-        <div className="flex flex-wrap items-center p-2 bg-gray-100 border-b border-gray-300">
+        <CoreToolbar id={id} type={type} {...methods}>
             {/* Wybór rodziny czcionki */}
             <select
                 onChange={e => handleChange({ fontFamily: e.target.value })}
                 defaultValue={activeClassNames.fontFamily}
-                className="border border-gray-300 rounded px-2 py-1 mr-2">
+                className="border border-gray-300 rounded px-2 py-1">
                 {fonts.map(font => (
                     <option key={font} value={font} className={font}>
                         {font.replace('font-', '')}
@@ -66,7 +64,7 @@ const FontToolbar: React.FC<Props> = ({ id }) => {
             <select
                 onChange={e => handleChange({ fontSize: e.target.value })}
                 defaultValue={activeClassNames.fontSize}
-                className="border border-gray-300 rounded px-2 py-1 mr-2">
+                className="border border-gray-300 rounded px-2 py-1">
                 {fontSizes.map(size => (
                     <option key={size} value={size}>
                         {size.replace('text-', '')}
@@ -114,7 +112,7 @@ const FontToolbar: React.FC<Props> = ({ id }) => {
                 }
                 className="w-10 h-10 border border-gray-300 rounded"
             />
-        </div>
+        </CoreToolbar>
     );
 };
 

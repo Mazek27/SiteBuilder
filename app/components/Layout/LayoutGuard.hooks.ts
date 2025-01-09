@@ -8,16 +8,22 @@ import {
     composeComponentPath,
     getSettingsById,
 } from '~/utils/client/component';
+import { AppModeType } from '~/models/AppMode';
 
 export const useLayoutGuard = <T extends object>(
     baseSettings: SettingsType<T>,
 ) => {
     const { isEditing, ...methods } = useEditMode();
+    const [mode, setMode] = useState<AppModeType>();
     const fetcher = useFetcher<{ success: boolean }>();
     const [layoutSettings, updateSettings] =
         useState<SettingsType<T>>(baseSettings);
 
     const layoutBaseRef = React.useRef<SettingsType<T>>(baseSettings);
+
+    const handleChangeMode = useCallback((mode: AppModeType) => {
+        setMode(mode);
+    }, []);
 
     const handleCancel = useCallback(() => {
         updateSettings(layoutBaseRef.current);
@@ -53,7 +59,7 @@ export const useLayoutGuard = <T extends object>(
         });
     }, []);
 
-    const handlePostUpdate = React.useCallback(
+    const handleUpdateSettings = React.useCallback(
         (id: string, property: string, data: T) => {
             updateSettings(prevSettings => {
                 const copyPrev = { ...prevSettings };
@@ -107,8 +113,10 @@ export const useLayoutGuard = <T extends object>(
     );
 
     return {
+        mode,
         layoutSettings,
-        handlePostUpdate,
+        handleChangeMode,
+        handleUpdateSettings,
         handleUpdateClassName,
         getComponentSettings,
         getComponentClassNames,

@@ -2,18 +2,15 @@ import * as React from 'react';
 import { FC, useContext } from 'react';
 import { TextButton } from '~/components/Core/TextButton/TextButton';
 import { clsx } from 'clsx';
-import { User } from '~/components/Layout/Header/components/User';
-import { UseRoleProps } from '@floating-ui/react';
-import { Auth0Profile } from 'remix-auth-auth0';
 import { useEditMode } from '~/hooks/useEditMode';
-import { EditContext } from '~/components/Layout/LayoutGuard';
+import { useEditContext } from '~/hooks/useEditContext';
 
 type Props = {
     isEditing: boolean;
 };
 export const EditModeButton: FC<Props> = props => {
     const { handleOpen, handleClose } = useEditMode();
-    const { handleSave } = useContext(EditContext);
+    const { handleSave } = useEditContext();
 
     if (props.isEditing) {
         return (

@@ -21,7 +21,7 @@ export const BarButton: FC<Props> = props => {
             className={clsx('p-2 border border-gray-300 rounded', {
                 'bg-success-700': props.active,
             })}>
-            <Icon className={'w-6 h-6'} />
+            <Icon className={'w-5 h-5'} />
         </button>
     );
 };

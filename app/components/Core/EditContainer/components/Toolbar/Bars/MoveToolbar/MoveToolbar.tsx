@@ -3,11 +3,25 @@ import * as React from 'react';
 import { BiDotsVertical, BiDotsHorizontal } from 'react-icons/bi';
 import { BarButton } from '~/components/Core/EditContainer/components/Toolbar/components/BarButton';
 import { CoreToolbar } from '~/components/Core/EditContainer/components/Toolbar/components/CoreToolbar';
+import { useEffect } from 'react';
+import { useEditMode } from '~/hooks/useEditMode';
+import { useEditContext } from '~/hooks/useEditContext';
 
 type Props = ComponentToolbar<{}>;
 
-const ContainerToolbar: React.FC<Props> = ({ id, type, ...methods }) => {
+const MoveToolbar: React.FC<Props> = ({ id, type, ...methods }) => {
     const { handleChange } = methods;
+    const { handleChangeMode } = useEditContext();
+
+    useEffect(() => {
+        handleChangeMode('move');
+
+        console.log('init');
+        return () => {
+            console.log('cleanup');
+            handleChangeMode('edit');
+        };
+    }, []);
 
     return (
         <CoreToolbar id={id} type={type} {...methods}>
@@ -46,4 +60,4 @@ const ContainerToolbar: React.FC<Props> = ({ id, type, ...methods }) => {
     );
 };
 
-export default ContainerToolbar;
+export default MoveToolbar;
