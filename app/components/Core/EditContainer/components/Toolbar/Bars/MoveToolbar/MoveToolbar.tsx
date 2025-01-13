@@ -15,12 +15,12 @@ const MoveToolbar: React.FC<Props> = ({ id, type, ...methods }) => {
 
     useEffect(() => {
         handleChangeMode('move');
-
-        console.log('init');
-        return () => {
-            console.log('cleanup');
-            handleChangeMode('edit');
-        };
+        //
+        // console.log('init');
+        // return () => {
+        //     console.log('cleanup');
+        //     handleChangeMode('edit');
+        // };
     }, []);
 
     return (

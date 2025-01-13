@@ -12,8 +12,7 @@ type OwnProps = Component<
     }
 >;
 
-const defaultClass =
-    'grid grid-col-1 grid-row-1 row-start-1 col-start-1 row-end-1 col-end-12';
+const defaultClass = 'grid row-start-1 col-start-1';
 const defaultText = 'Lorem ipsum dolor sit';
 
 export const Title = (props: OwnProps) => {

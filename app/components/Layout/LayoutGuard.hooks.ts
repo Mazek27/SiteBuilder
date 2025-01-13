@@ -92,6 +92,8 @@ export const useLayoutGuard = <T extends object>(
                 );
             });
 
+            console.log(className);
+
             _.set(copyPrev, `${componentPath}.className`, className);
 
             updateSettings(copyPrev);

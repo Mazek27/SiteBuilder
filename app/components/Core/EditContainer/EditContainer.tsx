@@ -14,6 +14,7 @@ type InnerOwnProps = {
 const EditContainer: FC<PropsWithChildren<InnerOwnProps>> = props => {
     const { id, type } = props;
     const toolbarRef = useRef(null);
+    const elementRef = useRef(null);
     const { getComponentClassNames, mode } = useEditContext();
     const { element, handleSelectElement, handleDeselectElement } =
         useEditMode();
@@ -34,24 +35,25 @@ const EditContainer: FC<PropsWithChildren<InnerOwnProps>> = props => {
             <div
                 className={clsx(
                     'grid',
-                    'grid-cols-1',
-                    'grid-rows-1',
                     gridRowStart,
                     gridRowEnd,
                     gridColStart,
                     gridColEnd,
                     'rounded-lg relative',
-                    'hover:outline-offset-8 hover:z-50 hover:outline-5 outline-blue-500 hover:outline select-none cursor-pointer bg-amber-100 ',
+                    'hover:outline-offset-8 hover:outline-5 outline-blue-500 hover:outline select-none cursor-pointer bg-amber-100 ',
                     {
-                        'outline outline-offset-8 outline-5 outline-blue-700 z-50 ':
+                        'outline outline-offset-8 outline-5 outline-blue-700 z-50  hover:z-50':
                             element === id,
                     },
                 )}
+                ref={elementRef}
                 onClick={handleSelectElement(id)}>
                 {props.children}
                 {displayTools && (
                     <>
-                        {displayMove && <ResizeHandlers />}
+                        {displayMove && (
+                            <ResizeHandlers id={id} elementRef={elementRef} />
+                        )}
                         {!displayMove && (
                             <Toolbar
                                 type={type as any}
