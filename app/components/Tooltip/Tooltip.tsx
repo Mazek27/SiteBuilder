@@ -49,7 +49,7 @@ const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = ({
                 stroke="#ffffff5c"
             />
             <>
-                <Content className={'p-5 bg-gray-950'}>{children}</Content>
+                <Content className={'p-4 bg-gray-950'}>{children}</Content>
                 <ButtonWrapper className={''}>
                     <Button editable={false} type={'submit'} text={'save'} />
                 </ButtonWrapper>

@@ -15,52 +15,43 @@ const EditContainer: FC<PropsWithChildren<InnerOwnProps>> = props => {
     const { id, type } = props;
     const toolbarRef = useRef(null);
     const elementRef = useRef(null);
-    const { getComponentClassNames, mode } = useEditContext();
+    const { mode, getComponentStyles, getComponentSettings } = useEditContext();
     const { element, handleSelectElement, handleDeselectElement } =
         useEditMode();
     const displayTools = element === id;
     const displayMove = mode === 'move';
 
-    useOutsideClick(toolbarRef, () => {
-        if (element) {
-            handleDeselectElement();
-        }
-    });
+    // useOutsideClick(toolbarRef, () => {
+    //     if (element) {
+    //         handleDeselectElement();
+    //     }
+    // });
 
-    const { gridRowStart, gridRowEnd, gridColStart, gridColEnd } =
-        getComponentClassNames(id);
+    const settings = getComponentSettings(id);
+    const style = getComponentStyles(id);
 
     return (
         <>
             <div
                 className={clsx(
-                    'grid',
-                    gridRowStart,
-                    gridRowEnd,
-                    gridColStart,
-                    gridColEnd,
+                    'absolute',
                     'rounded-lg relative',
-                    'hover:outline-offset-8 hover:outline-5 outline-blue-500 hover:outline select-none cursor-pointer bg-amber-100 ',
+                    'hover:outline-offset-7 hover:outline-4 outline-blue-400 hover:outline select-none cursor-pointer bg-amber-100 ',
                     {
-                        'outline outline-offset-8 outline-5 outline-blue-700 z-50  hover:z-50':
+                        'outline outline-offset-7 outline-4 outline-blue-700 z-40  hover:z-40':
                             element === id,
                     },
                 )}
+                style={style}
                 ref={elementRef}
                 onClick={handleSelectElement(id)}>
                 {props.children}
                 {displayTools && (
                     <>
-                        {displayMove && (
+                        {!settings.locked && (
                             <ResizeHandlers id={id} elementRef={elementRef} />
                         )}
-                        {!displayMove && (
-                            <Toolbar
-                                type={type as any}
-                                ref={toolbarRef}
-                                id={id}
-                            />
-                        )}
+                        <Toolbar type={type as any} ref={toolbarRef} id={id} />
                     </>
                 )}
             </div>
@@ -71,15 +62,15 @@ const EditContainer: FC<PropsWithChildren<InnerOwnProps>> = props => {
 type OuterOwnProps = {
     id?: string;
     type?: string;
-    editable?: boolean;
+    locked?: boolean;
     defaultValues?: Record<string, any>;
 };
 
 export default (props: PropsWithChildren<OuterOwnProps>) => {
-    const { editable = true, type, id } = props;
+    const { locked = false, type, id } = props;
     const { isEditing } = useEditMode();
 
-    if (isEditing && editable && id) {
+    if (isEditing && !locked && id) {
         return (
             <EditContainer type={type} id={id}>
                 {props.children}

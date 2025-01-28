@@ -1,13 +1,16 @@
 import { keyframes } from '@emotion/react';
+import { CSSProperties } from 'react';
 
 export type Component<Type, Content> = {
-    id?: string;
+    id: string;
     type?: Type;
-    editable?: boolean;
     settings?: SettingsType<Content>;
     onClick?: () => void;
 };
 
 export type SettingsType<Content> = Content & {
+    editable?: boolean;
+    locked?: boolean;
     className?: string;
+    style?: CSSProperties;
 };

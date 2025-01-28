@@ -33,7 +33,7 @@ const propertyClassMap: PropertyClassMap = {
             'text-2xl',
             'text-3xl',
             'text-4xl',
-            'text-5xl',
+            'text-4xl',
             'text-6xl',
         ],
         default: 'text-base',
@@ -102,7 +102,7 @@ const propertyClassMap: PropertyClassMap = {
             'px-2',
             'px-3',
             'px-4',
-            'px-5',
+            'px-4',
             'px-6',
             'px-8',
             'px-10',
@@ -117,7 +117,7 @@ const propertyClassMap: PropertyClassMap = {
             'py-2',
             'py-3',
             'py-4',
-            'py-5',
+            'py-4',
             'py-6',
             'py-8',
             'py-10',
@@ -156,7 +156,7 @@ const propertyClassMap: PropertyClassMap = {
     },
     hoverBackgroundColor: {
         classes: [], // Handled with regex
-        default: 'hover:bg-gray-50',
+        default: 'hover:bg-gray-40',
     },
     // Add other properties as needed
 };

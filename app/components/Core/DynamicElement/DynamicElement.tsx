@@ -23,10 +23,10 @@ export const DynamicElement: FC<Props> = ({ id, settings }) => {
         return null;
     }
 
-    const DynamicComponent = Components[type] as any;
+    const Component = Components[type] as any;
 
-    if (DynamicComponent) {
-        return <DynamicComponent id={id} settings={settings[id] || settings} />;
+    if (Component) {
+        return <Component id={id} settings={settings[id] || settings} />;
     }
 
     return null;

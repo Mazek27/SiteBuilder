@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
 import { SettingsType } from '~/components/Core/model';
 import _ from 'lodash';
 import { ClassNameUtils } from '~/utils/client/className';
@@ -9,6 +9,13 @@ import {
     getSettingsById,
 } from '~/utils/client/component';
 import { AppModeType } from '~/models/AppMode';
+import { StyleUtils } from '~/utils/client/style';
+
+type StyleUpdates =
+    | Partial<CSSStyleDeclaration>
+    | {
+          [key: string]: string | number | null | undefined;
+      };
 
 export const useLayoutGuard = <T extends object>(
     baseSettings: SettingsType<T>,
@@ -101,6 +108,22 @@ export const useLayoutGuard = <T extends object>(
         [layoutSettings],
     );
 
+    const handleUpdateStyle = React.useCallback(
+        (id: string, patch: CSSProperties, merge = true) => {
+            const copyPrev = { ...layoutSettings };
+
+            const componentPath = composeComponentPath(id);
+            const style = getComponentStyles(id);
+
+            const newStyle = StyleUtils.changeStyle(style, patch);
+
+            _.set(copyPrev, `${componentPath}.style`, newStyle);
+
+            updateSettings(copyPrev);
+        },
+        [layoutSettings],
+    );
+
     const getComponentSettings = React.useCallback(
         (id: string) => getSettingsById(id, layoutSettings),
         [layoutSettings],
@@ -114,14 +137,22 @@ export const useLayoutGuard = <T extends object>(
         [layoutSettings],
     );
 
+    const getComponentStyles = React.useCallback(
+        (id: string) =>
+            getComponentSettings(id)?.style ?? ({} as CSSProperties),
+        [layoutSettings],
+    );
+
     return {
         mode,
         layoutSettings,
         handleChangeMode,
         handleUpdateSettings,
         handleUpdateClassName,
+        handleUpdateStyle,
         getComponentSettings,
         getComponentClassNames,
+        getComponentStyles,
         handleUpdate,
         handleClose,
         handleCancel,

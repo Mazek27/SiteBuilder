@@ -20,7 +20,7 @@ const defaultText = 'Ok';
 export const LinkList = (props: OwnProps) => {
     const {
         id = '',
-        settings: { className, elements = [] } = {},
+        settings: { className, elements = [], editable } = {},
         onClick,
     } = props;
 
@@ -32,11 +32,12 @@ export const LinkList = (props: OwnProps) => {
     return (
         <EditContainer
             id={id}
-            editable={props.editable}
+            editable={editable}
             defaultValues={{ type: 'linkList' }}>
             {elements.map(item => (
                 <TextButton
                     key={item.url}
+                    id={id}
                     settings={{ text: item.label, className: newClassName }}
                     onClick={() => window.open(item.url, '_blank')}
                 />

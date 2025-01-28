@@ -15,7 +15,7 @@ export const FormSelect: FC<Props> = ({ label, ...props }) => {
             </label>
             <select
                 {...props}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500">
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-400">
                 <option value="">None</option>
                 {props.options.map(props.optionRenderer)}
             </select>

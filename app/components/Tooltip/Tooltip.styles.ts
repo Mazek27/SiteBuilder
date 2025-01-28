@@ -103,7 +103,7 @@ export const Content = styled.div`
 export const Title = styled.div`
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: -5px;
+    margin-bottom: -4px;
 `;
 
 export const ButtonWrapper = styled.div`

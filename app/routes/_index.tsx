@@ -41,44 +41,37 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     let settings = await getSettings(page, userId, hostname);
 
-    if (!settings) {
-        settings = await prisma.settings.create({
-            data: {
-                page,
-                schema: JSON.stringify({
-                    '250eaf29-9753-4c80-8bf5-228c206bb586': {
-                        type: 'container',
-                        className: '',
-                        children: [
-                            {
-                                id: 'bca538b7-9a02-4afc-b77f-9ee1cda45665',
-                                text: 'Welcome to Remix!',
-                                type: 'title',
-                            },
-                            {
-                                id: '5bb2225b-d708-4bf6-a5db-5194ae5f718c',
-                                text: 'Welcome to Remix! This is a starter Remix app.',
-                                type: 'paragraph',
-                            },
-                            {
-                                id: '67200a77-0e3f-45e7-a92f-4382dfe6841e',
-                                text: 'Get Started',
-                                type: 'button',
-                                buttonType: 'primary',
-                            },
-                            {
-                                id: 'bf8b21ac-363d-40ba-a645-fe63555ee549',
-                                text: 'Learn More',
-                                type: 'textButton',
-                            },
-                        ],
-                    },
-                }),
-                hostname,
-                userId,
+    if (settings) {
+        await prisma.settings.delete({
+            where: {
+                id: settings.id,
             },
         });
     }
+
+    // if (!settings) {
+    settings = await prisma.settings.create({
+        data: {
+            page,
+            schema: JSON.stringify({
+                '250eaf29-9753-4c80-8bf5-228c206bb586': {
+                    type: 'container',
+                    locked: true,
+                    className: 'p-4',
+                    children: [
+                        {
+                            id: 'bca538b7-9a02-4afc-b77f-9ee1cda45665',
+                            text: 'Welcome to Remix!',
+                            type: 'title',
+                        },
+                    ],
+                },
+            }),
+            hostname,
+            userId,
+        },
+    });
+    // }
 
     settings = JSON.parse(settings.schema!);
 

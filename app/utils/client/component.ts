@@ -1,5 +1,6 @@
 import { SettingsType } from '~/components/Core/model';
 import _ from 'lodash';
+import { CSSProperties } from 'react';
 
 export const composeComponentPath = (componentId: string) => {
     const splitPath = componentId.split('.');
@@ -15,5 +16,6 @@ export const getSettingsById = (id: string, settings: SettingsType<any>) => {
     const componentPath = composeComponentPath(id);
     return _.get(settings, componentPath, {}) as {
         className?: string;
+        style?: CSSProperties;
     };
 };

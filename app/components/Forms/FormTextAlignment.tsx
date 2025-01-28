@@ -57,7 +57,7 @@ export const FormTextAlignment: FC<Props> = memo(
                             type="button"
                             className={`p-2 border ${
                                 alignment === option.value
-                                    ? 'border-blue-500'
+                                    ? 'border-blue-400'
                                     : 'border-gray-300'
                             } rounded`}
                             onClick={() => setValue(name, option.value)}>

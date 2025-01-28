@@ -11,13 +11,14 @@ type OwnProps = Component<
     }
 >;
 
-const defaultClass = 'grid grid-cols-12 grid-rows-4';
+const defaultClass = 'block';
 
 const createChildId = (parentId: string, childId: string, index: number) =>
     `${parentId}.children[${index}].${childId}`;
 
 export const Container = (props: OwnProps) => {
-    const { settings: { className, children } = { children: [] }, id } = props;
+    const { settings: { className, children, locked } = { children: [] }, id } =
+        props;
 
     const newClassName = ClassNameUtils.updateClassName(
         defaultClass,

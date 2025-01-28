@@ -12,11 +12,12 @@ type OwnProps = Component<
     }
 >;
 
-const defaultClass = 'grid row-start-1 col-start-1';
+const defaultClass = '';
 const defaultText = 'Lorem ipsum dolor sit';
 
 export const Title = (props: OwnProps) => {
-    const { settings: { className, text = defaultText } = {}, id } = props;
+    const { settings: { className, text = defaultText, style } = {}, id } =
+        props;
 
     const newClassName = ClassNameUtils.updateClassName(
         defaultClass,
@@ -25,7 +26,9 @@ export const Title = (props: OwnProps) => {
 
     return (
         <EditContainer id={id} type={'title'}>
-            <h1 className={newClassName}>{text}</h1>
+            <h1 className={newClassName} style={style}>
+                {text}
+            </h1>
         </EditContainer>
     );
 };
